@@ -49,6 +49,8 @@ class birthday_portal extends portal_generic {
 		'defaultnumber'		=> '10',
 		'visibility'		=> array(2,3,4),
 	);
+	
+	protected $reset_pdh_hooks = array('user');
 
 	public function output() {
 		$show_birthdays = ($this->config->get('pk_birthday_limit') > 0) ? $this->config->get('pk_birthday_limit') : 5;
@@ -144,7 +146,7 @@ class birthday_portal extends portal_generic {
 	}
 
 	public function reset() {
-		$this->pdc->del('portal.modul.birthday');
+		$this->pdc->del_prefix('portal.modul.birthday');
 	}
 }
 if(version_compare(PHP_VERSION, '5.3.0', '<')) registry::add_const('short_birthday_portal', birthday_portal::__shortcuts());
