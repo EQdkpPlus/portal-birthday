@@ -22,7 +22,7 @@ if ( !defined('EQDKP_INC') ){
 
 class birthday_portal extends portal_generic {
 	public static function __shortcuts() {
-		$shortcuts = array('user', 'pdc', 'core', 'db', 'time', 'config');
+		$shortcuts = array('user', 'pdc', 'core', 'db', 'time', 'config', 'routing');
 		return array_merge(parent::$shortcuts, $shortcuts);
 	}
 
@@ -54,9 +54,9 @@ class birthday_portal extends portal_generic {
 
 	public function output() {
 		$show_birthdays = ($this->config->get('pk_birthday_limit') > 0) ? $this->config->get('pk_birthday_limit') : 5;
-		$myOut = $this->pdc->get('portal.modul.birthday.'.$this->root_path,false,true);
+		$myBirthdays = $this->pdc->get('portal.modul.birthday',false,true);
 
-		if (!$myOut){
+		if (!$myBirthdays){
 			// Load birthdays
 			$birt_sql		= 'SELECT user_id, username, birthday FROM __users ORDER BY birthday';
 			$birt_result	= $this->db->query($birt_sql);
@@ -81,44 +81,40 @@ class birthday_portal extends portal_generic {
 				}
 				array_multisort($bdsort,SORT_ASC,$myBirthdays);
 			}
-
-			// Generate Output
-			$myOut = "<table cellpadding='3' cellspacing='2' width='100%' class='colorswitch'>";
-			if(is_array($myBirthdays) && count($myBirthdays) > 0){
-				$ciii = 0;
-				foreach($myBirthdays as $boptions){
-					$highlight = ($boptions['today']) ? "class='birthday_today'" : "";
-					$bdicon    = ($boptions['today']) ? "<img src='{$this->root_path}portal/birthday/images/cake.png' alt='Birthday' /> ": '';
-					if(!$boptions['today']) $boptions['age']++;
-					if($show_birthdays > $ciii){
-						$myOut .= "<tr valign='top' ".$highlight.">
-									<td>
-										<table cellpadding='0' cellspacing='0' width='100%'>
-											<tr>
-												<td class='birthday_username' style='font-weight:bold;'>
-													".$bdicon.'<a href="'.$this->root_path.'listusers.php'.$this->SID.'&amp;u='.$boptions['user_id'].'">'.$boptions['username'].'</a>'."
-												</td>
-												<td class='birthday_date' align='right'>
-													".$this->time->date('d.m.', $boptions['birthday'])."
-												</td>
-												<td class='birthday_date' align='right' width='30'>
-													(".$boptions['age'].")
-												</td>
-											</tr>
-										</table>
-									</td>
-									</tr>";
-					}
-					$ciii++;
-				}
-			}else{
-				$myOut .= "<tr valign='top'>
-					<td>".$this->user->lang('pk_birthday_nobd')."</td>
-					</tr>";
-			}
-			$myOut .= "</table>";
-			$this->pdc->put('portal.modul.birthday.'.$this->root_path,$myOut,86400,false,true);
+			$this->pdc->put('portal.modul.birthday',$myBirthdays,86400,false,true);
 		}
+		
+		if(is_array($myBirthdays) && count($myBirthdays) > 0){
+			$myOut = "<table width='100%' class='colorswitch'>";
+			$ciii = 0;
+			
+			foreach($myBirthdays as $boptions){
+				$highlight = ($boptions['today']) ? "class='birthday_today'" : "";
+				$bdicon    = ($boptions['today']) ? "<img src='{$this->server_path}portal/birthday/images/cake.png' alt='Birthday' /> ": '';
+				if(!$boptions['today']) $boptions['age']++;
+				if($show_birthdays > $ciii){
+					$myOut .= "
+						<tr ".$highlight.">
+							<td class='birthday_username'>
+								".$bdicon.'<a href="'.$this->routing->build('user', $boptions['username'], 'u'.$boptions['user_id']).'">'.$boptions['username'].'</a>'."
+							</td>
+							<td class='birthday_date' align='right'>
+								".$this->time->date('d.m.', $boptions['birthday'])."
+							</td>
+							<td class='birthday_date' align='right' width='30'>
+								(".$boptions['age'].")
+							</td>
+						</tr>";
+				}
+				$ciii++;
+			}
+			
+			$myOut .= "</table>";
+		} else {
+			$myOut = $this->user->lang('pk_birthday_nobd');
+		}
+
+			
 		return $myOut;
 	}
 
@@ -149,5 +145,4 @@ class birthday_portal extends portal_generic {
 		$this->pdc->del_prefix('portal.modul.birthday');
 	}
 }
-if(version_compare(PHP_VERSION, '5.3.0', '<')) registry::add_const('short_birthday_portal', birthday_portal::__shortcuts());
 ?>
