@@ -81,7 +81,7 @@ class birthday_portal extends portal_generic {
 				}
 				array_multisort($bdsort,SORT_ASC,$myBirthdays);
 			}
-			$this->pdc->put('portal.modul.birthday',$myBirthdays,86400,false,true);
+			$this->pdc->put('portal.modul.birthday',$myBirthdays,3600,false,true);
 		}
 		
 		if(is_array($myBirthdays) && count($myBirthdays) > 0){
