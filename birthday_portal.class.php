@@ -22,7 +22,7 @@ if ( !defined('EQDKP_INC') ){
 
 class birthday_portal extends portal_generic {
 	public static function __shortcuts() {
-		$shortcuts = array('user', 'pdc', 'core', 'db', 'time', 'config', 'routing');
+		$shortcuts = array('user', 'pdc', 'core', 'db', 'time', 'config', 'routing', 'db2');
 		return array_merge(parent::$shortcuts, $shortcuts);
 	}
 
@@ -59,19 +59,21 @@ class birthday_portal extends portal_generic {
 		if (!$myBirthdays){
 			// Load birthdays
 			$birt_sql		= 'SELECT user_id, username, birthday FROM __users ORDER BY birthday';
-			$birt_result	= $this->db->query($birt_sql);
+			$birt_result	= $this->db2->query($birt_sql);
 			$myBirthdays	= '';
-			while ( $brow = $this->db->fetch_record($birt_result)){
-				if(!empty($brow['birthday'])){
-					$sortdate		= $this->birthday_sortdate($brow['birthday']);
-					$myBirthdays[] = array(
-						'user_id'		=> $brow['user_id'],
-						'username'		=> $brow['username'],
-						'birthday'		=> $brow['birthday'],
-						'age'			=> $this->time->age($brow['birthday']),
-						'today'			=> $this->birthday_istoday($brow['birthday']) ? true : false,
-						'sortdate'		=> $sortdate
-					);
+			if ($birt_result){
+				while ( $brow = $birt_result->fetchAssoc()){
+					if(!empty($brow['birthday'])){
+						$sortdate		= $this->birthday_sortdate($brow['birthday']);
+						$myBirthdays[] = array(
+							'user_id'		=> $brow['user_id'],
+							'username'		=> $brow['username'],
+							'birthday'		=> $brow['birthday'],
+							'age'			=> $this->time->age($brow['birthday']),
+							'today'			=> $this->birthday_istoday($brow['birthday']) ? true : false,
+							'sortdate'		=> $sortdate
+						);
+					}
 				}
 			}
 
