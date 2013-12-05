@@ -86,37 +86,31 @@ class birthday_portal extends portal_generic {
 			$this->pdc->put('portal.modul.birthday',$myBirthdays,3600,false,true);
 		}
 		
+		$myOut = '<div class="table colorswitch hoverrows">';
 		if(is_array($myBirthdays) && count($myBirthdays) > 0){
-			$myOut = "<table width='100%' class='colorswitch'>";
 			$ciii = 0;
-			
 			foreach($myBirthdays as $boptions){
-				$highlight = ($boptions['today']) ? "class='birthday_today'" : "";
-				$bdicon    = ($boptions['today']) ? "<img src='{$this->server_path}portal/birthday/images/cake.png' alt='Birthday' /> ": '';
+				$highlight = ($boptions['today']) ? " birthday_today" : "";
+				$bdicon    = ($boptions['today']) ? "<img src='{$this->root_path}portal/birthday/images/cake.png' alt='Birthday' /> ": '';
 				if(!$boptions['today']) $boptions['age']++;
 				if($show_birthdays > $ciii){
-					$myOut .= "
-						<tr ".$highlight.">
-							<td class='birthday_username'>
-								".$bdicon.'<a href="'.$this->routing->build('user', $boptions['username'], 'u'.$boptions['user_id']).'">'.$boptions['username'].'</a>'."
-							</td>
-							<td class='birthday_date' align='right'>
-								".$this->time->date('d.m.', $boptions['birthday'])."
-							</td>
-							<td class='birthday_date' align='right' width='30'>
-								(".$boptions['age'].")
-							</td>
-						</tr>";
+
+					$myOut .= '<div class="tr'.$highlight.'">
+									<div class="td birthday_username" style="font-weight:bold;">
+										'.$bdicon.'<a href="'.$this->root_path.'listusers.php'.$this->SID.'&amp;u='.$boptions['user_id'].'">'.$boptions['username'].'</a>
+									</div>
+									<div class="td birthday_date">'.$this->time->date('d.m.', $boptions['birthday']).'</div>
+									<div class="td birthday_age">('.$boptions['age'].')</div>
+								</div>';
 				}
 				$ciii++;
 			}
-			
-			$myOut .= "</table>";
-		} else {
-			$myOut = $this->user->lang('pk_birthday_nobd');
+		}else{
+			$myOut .= '<div class="tr">
+				<div class="td">'.$this->user->lang('pk_birthday_nobd').'</div>
+				</div>';
 		}
-
-			
+		$myOut .= "</div>";
 		return $myOut;
 	}
 
