@@ -32,7 +32,7 @@ class birthday_portal extends portal_generic {
 		'lang_prefix'	=> 'birthday_'
 	);
 	protected static $positions = array('left1', 'left2', 'right');
-	protected static $settings	= array(
+	protected $settings	= array(
 		'limit'	=> array(
 			'type'		=> 'text',
 			'size'		=> '2',
