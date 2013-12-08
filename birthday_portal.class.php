@@ -21,29 +21,24 @@ if ( !defined('EQDKP_INC') ){
 }
 
 class birthday_portal extends portal_generic {
-	public static function __shortcuts() {
-		$shortcuts = array('user', 'pdc', 'core', 'db', 'time', 'config', 'routing', 'db');
-		return array_merge(parent::$shortcuts, $shortcuts);
-	}
 
-	protected $path		= 'birthday';
-	protected $data		= array(
+	protected static $path		= 'birthday';
+	protected static $data		= array(
 		'name'			=> 'Birthdays',
 		'version'		=> '2.0.0',
 		'author'		=> 'WalleniuM',
 		'contact'		=> EQDKP_PROJECT_URL,
 		'description'	=> 'Shows the actual birthdays on that day',
+		'lang_prefix'	=> 'birthday_'
 	);
-	protected $positions = array('left1', 'left2', 'right');
-	protected $settings	= array(
-		'pk_birthday_limit'	=> array(
-			'name'		=> 'pk_birthday_limit',
-			'language'	=> 'pk_birthday_limit',
-			'property'	=> 'text',
+	protected static $positions = array('left1', 'left2', 'right');
+	protected static $settings	= array(
+		'limit'	=> array(
+			'type'		=> 'text',
 			'size'		=> '2',
 		),
 	);
-	protected $install	= array(
+	protected static $install	= array(
 		'autoenable'		=> '1',
 		'defaultposition'	=> 'left2',
 		'defaultnumber'		=> '10',
@@ -53,7 +48,7 @@ class birthday_portal extends portal_generic {
 	protected $reset_pdh_hooks = array('user');
 
 	public function output() {
-		$show_birthdays = ($this->config->get('pk_birthday_limit') > 0) ? $this->config->get('pk_birthday_limit') : 5;
+		$show_birthdays = ($this->config('limit') > 0) ? $this->config('limit') : 5;
 		$myBirthdays = $this->pdc->get('portal.modul.birthday',false,true);
 
 		if (!$myBirthdays){
@@ -107,7 +102,7 @@ class birthday_portal extends portal_generic {
 			}
 		}else{
 			$myOut .= '<div class="tr">
-				<div class="td">'.$this->user->lang('pk_birthday_nobd').'</div>
+				<div class="td">'.$this->user->lang('birthday_nobd').'</div>
 				</div>';
 		}
 		$myOut .= "</div>";
@@ -135,10 +130,6 @@ class birthday_portal extends portal_generic {
 		}else{
 			return 0;
 		}
-	}
-
-	public function reset() {
-		$this->pdc->del_prefix('portal.modul.birthday');
 	}
 }
 ?>
