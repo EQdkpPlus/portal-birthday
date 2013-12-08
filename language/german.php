@@ -25,6 +25,6 @@ $lang = array(
 	'birthday_name'		=> 'Nächste Geburtstage',
 	'birthday_desc'		=> 'Zeigt die nächsten Geburtstage deiner Benutzer an',
 	'birthday_nobd'		=> 'Es sind keine Geburtstage eingetragen.',
-	'birthday_limit'	=> 'Nächsten x Geburtstage anzeigen',
+	'birthday_f_limit'	=> 'Nächsten x Geburtstage anzeigen',
 );
 ?>

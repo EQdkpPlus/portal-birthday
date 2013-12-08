@@ -25,6 +25,6 @@ $lang = array(
 	'birthday_name'		=> 'Birthdays',
 	'birthday_desc'		=> 'Shows the actual birthdays on that day',
 	'birthday_nobd'		=> 'There are no birthdays available.',
-	'birthday_limit'	=> 'Show next x birthdays',
+	'birthday_f_limit'	=> 'Show next x birthdays',
 );
 ?>
