@@ -92,7 +92,7 @@ class birthday_portal extends portal_generic {
 
 					$myOut .= '<div class="tr'.$highlight.'">
 									<div class="td birthday_username" style="font-weight:bold;">
-										'.$bdicon.'<a href="'.$this->root_path.'listusers.php'.$this->SID.'&amp;u='.$boptions['user_id'].'">'.$boptions['username'].'</a>
+										'.$bdicon.'<a href="'.$this->routing->build('user', $boptions['username'], 'u'.$boptions['user_id']).'">'.$boptions['username'].'</a>
 									</div>
 									<div class="td birthday_date">'.$this->time->date('d.m.', $boptions['birthday']).'</div>
 									<div class="td birthday_age">('.$boptions['age'].')</div>
@@ -130,6 +130,10 @@ class birthday_portal extends portal_generic {
 		}else{
 			return 0;
 		}
+	}
+
+	public static function reset() {
+		$this->pdc->del_prefix('portal.modul.birthday');
 	}
 }
 ?>
