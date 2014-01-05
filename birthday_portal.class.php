@@ -133,7 +133,7 @@ class birthday_portal extends portal_generic {
 	}
 
 	public static function reset() {
-		$this->pdc->del_prefix('portal.modul.birthday');
+		register('pdc')->del_prefix('portal.modul.birthday');
 	}
 }
 ?>
