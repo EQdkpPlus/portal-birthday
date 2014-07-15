@@ -29,7 +29,8 @@ class birthday_portal extends portal_generic {
 		'author'		=> 'WalleniuM',
 		'contact'		=> EQDKP_PROJECT_URL,
 		'description'	=> 'Shows the actual birthdays on that day',
-		'lang_prefix'	=> 'birthday_'
+		'lang_prefix'	=> 'birthday_',
+		'icon'			=> 'fa-gift'
 	);
 	protected static $positions = array('left1', 'left2', 'right');
 	protected $settings	= array(
