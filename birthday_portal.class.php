@@ -87,7 +87,7 @@ class birthday_portal extends portal_generic {
 			$ciii = 0;
 			foreach($myBirthdays as $boptions){
 				$highlight = ($boptions['today']) ? " birthday_today" : "";
-				$bdicon    = ($boptions['today']) ? "<img src='{$this->root_path}portal/birthday/images/cake.png' alt='Birthday' /> ": '';
+				$bdicon    = ($boptions['today']) ? "<i class='fa fa-gift fa-lg ga-fw'></i> ": '';
 				if(!$boptions['today']) $boptions['age']++;
 				if($show_birthdays > $ciii){
 
