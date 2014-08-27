@@ -45,6 +45,7 @@ class birthday_portal extends portal_generic {
 		'defaultnumber'		=> '10',
 		'visibility'		=> array(2,3,4),
 	);
+	protected static $apiLevel = 20;
 	
 	protected $reset_pdh_hooks = array('user');
 
