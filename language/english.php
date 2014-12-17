@@ -1,6 +1,6 @@
 <?php
 /*	Project:	EQdkp-Plus
- *	Package:	Birthday Portal Module
+ *	Package:	EQdkp-Plus Language File
  *	Link:		http://eqdkp-plus.eu
  *
  *	Copyright (C) 2006-2015 EQdkp-Plus Developer Team
@@ -19,15 +19,23 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-if ( !defined('EQDKP_INC') ){
-	header('HTTP/1.0 404 Not Found');exit;
+ 
+if (!defined('EQDKP_INC')) {
+	die('You cannot access this file directly.');
 }
 
-$lang = array(
-	'birthday'			=> 'Next birthdays',
-	'birthday_name'		=> 'Birthdays',
-	'birthday_desc'		=> 'Shows the actual birthdays on that day',
-	'birthday_nobd'		=> 'There are no birthdays available.',
-	'birthday_f_limit'	=> 'Show next x birthdays',
+//Language: English	
+//Created by EQdkp Plus Translation Tool on  2014-12-17 21:28
+//File: portal/birthday/language/english.php
+//Source-Language: german
+
+$lang = array( 
+	"birthday" => 'Next birthdays',
+	"birthday_name" => 'Birthdays',
+	"birthday_desc" => 'Shows the actual birthdays on that day',
+	"birthday_nobd" => 'There are no birthdays available.',
+	"birthday_f_limit" => 'Show next x birthdays',
+	
 );
+
 ?>
