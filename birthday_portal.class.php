@@ -28,7 +28,7 @@ class birthday_portal extends portal_generic {
 	protected static $path		= 'birthday';
 	protected static $data		= array(
 		'name'			=> 'Birthdays',
-		'version'		=> '2.0.0',
+		'version'		=> '2.1.0',
 		'author'		=> 'WalleniuM',
 		'contact'		=> EQDKP_PROJECT_URL,
 		'description'	=> 'Shows the actual birthdays on that day',
