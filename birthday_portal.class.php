@@ -54,7 +54,7 @@ class birthday_portal extends portal_generic {
 
 	public function output() {
 		$show_birthdays = ($this->config('limit') > 0) ? $this->config('limit') : 5;
-		$myBirthdays = $this->pdc->get('portal.modul.birthday',false,true);
+		$myBirthdays = $this->pdc->get('portal.module.birthday',false,true);
 
 		if (!$myBirthdays){
 			// Load birthdays
@@ -83,7 +83,7 @@ class birthday_portal extends portal_generic {
 				}
 				array_multisort($bdsort,SORT_ASC,$myBirthdays);
 			}
-			$this->pdc->put('portal.modul.birthday',$myBirthdays,3600,false,true);
+			$this->pdc->put('portal.module.birthday',$myBirthdays,3600,false,true);
 		}
 		
 		$myOut = '<div class="table colorswitch hoverrows">';
@@ -138,7 +138,7 @@ class birthday_portal extends portal_generic {
 	}
 
 	public static function reset() {
-		register('pdc')->del_prefix('portal.modul.birthday');
+		register('pdc')->del_prefix('portal.module.birthday');
 	}
 }
 ?>
