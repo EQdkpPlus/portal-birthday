@@ -54,8 +54,11 @@ class birthday_portal extends portal_generic {
 
 	public function output() {
 		$show_birthdays = ($this->config('limit') > 0) ? $this->config('limit') : 5;
-		$myBirthdays = $this->pdc->get('portal.module.birthday',false,true);
-
+		$myBirthdays = $this->pdc->get('portal.module.birthday.'.$this->user->id,false,true);
+		$userTimeFormat = $this->user->style['date_notime_short'];
+		//Try to remove the year
+		$userTimeFormat = str_replace(array('.y', '.Y', '-y', '-Y', 'y-', 'Y-', '/y', '/Y', 'y/', 'Y/'), $userTimeFormat, $subject);
+		
 		if (!$myBirthdays){
 			// Load birthdays
 			$birt_sql		= 'SELECT user_id, username, birthday FROM __users ORDER BY birthday';
@@ -83,7 +86,7 @@ class birthday_portal extends portal_generic {
 				}
 				array_multisort($bdsort,SORT_ASC,$myBirthdays);
 			}
-			$this->pdc->put('portal.module.birthday',$myBirthdays,3600,false,true);
+			$this->pdc->put('portal.module.birthday.'.$this->user->id,$myBirthdays,3600,false,true);
 		}
 		
 		$myOut = '<div class="table colorswitch hoverrows">';
@@ -99,7 +102,7 @@ class birthday_portal extends portal_generic {
 									<div class="td birthday_username" style="font-weight:bold;">
 										'.$bdicon.'<a href="'.$this->routing->build('user', $boptions['username'], 'u'.$boptions['user_id']).'">'.$boptions['username'].'</a>
 									</div>
-									<div class="td birthday_date">'.$this->time->date('d.m.', $boptions['birthday']).'</div>
+									<div class="td birthday_date">'.$this->time->date($userTimeFormat, $boptions['birthday']).'</div>
 									<div class="td birthday_age">('.$boptions['age'].')</div>
 								</div>';
 				}
