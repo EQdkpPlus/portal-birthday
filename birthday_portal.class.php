@@ -28,7 +28,7 @@ class birthday_portal extends portal_generic {
 	protected static $path		= 'birthday';
 	protected static $data		= array(
 		'name'			=> 'Birthdays',
-		'version'		=> '2.1.3',
+		'version'		=> '2.1.1',
 		'author'		=> 'WalleniuM',
 		'contact'		=> EQDKP_PROJECT_URL,
 		'description'	=> 'Shows the actual birthdays on that day',
@@ -57,7 +57,7 @@ class birthday_portal extends portal_generic {
 		$myBirthdays = $this->pdc->get('portal.module.birthday.'.$this->user->id,false,true);
 		$userTimeFormat = $this->user->style['date_notime_short'];
 		//Try to remove the year
-		$userTimeFormat = str_ireplace(array('.y', 'y.', '-y', 'y-', '/y', 'y/'), '', $userTimeFormat);
+		$userTimeFormat = str_replace(array('.y', '.Y', '-y', '-Y', 'y-', 'Y-', '/y', '/Y', 'y/', 'Y/'), $userTimeFormat, $subject);
 		
 		if (!$myBirthdays){
 			// Load birthdays
