@@ -49,7 +49,7 @@ class birthday_portal extends portal_generic {
 		'visibility'		=> array(2,3,4),
 	);
 	protected static $apiLevel = 20;
-	
+
 	protected $reset_pdh_hooks = array('user');
 
 	public function output() {
@@ -58,12 +58,12 @@ class birthday_portal extends portal_generic {
 		$userTimeFormat = $this->user->style['date_notime_short'];
 		//Try to remove the year
 		$userTimeFormat = str_ireplace(array('.y', 'y.', '-y', 'y-', '/y', 'y/'), '', $userTimeFormat);
-		
+
 		if (!$myBirthdays){
 			// Load birthdays
 			$birt_sql		= 'SELECT user_id, username, birthday FROM __users ORDER BY birthday';
 			$birt_result	= $this->db->query($birt_sql);
-			$myBirthdays	= '';
+			$myBirthdays	= array();
 			if ($birt_result){
 				while ( $brow = $birt_result->fetchAssoc()){
 					if(!empty($brow['birthday'])){
@@ -88,7 +88,7 @@ class birthday_portal extends portal_generic {
 			}
 			$this->pdc->put('portal.module.birthday.'.$this->user->id,$myBirthdays,3600,false,true);
 		}
-		
+
 		$myOut = '<div class="table colorswitch hoverrows">';
 		if(is_array($myBirthdays) && count($myBirthdays) > 0){
 			$ciii = 0;
