@@ -28,7 +28,7 @@ class birthday_portal extends portal_generic {
 	protected static $path		= 'birthday';
 	protected static $data		= array(
 		'name'			=> 'Birthdays',
-		'version'		=> '2.1.4',
+		'version'		=> '2.2.0',
 		'author'		=> 'WalleniuM',
 		'contact'		=> EQDKP_PROJECT_URL,
 		'description'	=> 'Shows the actual birthdays on that day',
@@ -61,23 +61,21 @@ class birthday_portal extends portal_generic {
 
 		if (!$myBirthdays){
 			// Load birthdays
-			$birt_sql		= 'SELECT user_id, username, birthday FROM __users ORDER BY birthday';
-			$birt_result	= $this->db->query($birt_sql);
+			$arrUserIDs = $this->pdh->get('user', 'id_list', array());
 			$myBirthdays	= array();
-			if ($birt_result){
-				while ( $brow = $birt_result->fetchAssoc()){
-					if(!empty($brow['birthday'])){
-						$sortdate		= $this->birthday_sortdate($brow['birthday']);
-						$myBirthdays[] = array(
-							'user_id'		=> $brow['user_id'],
-							'username'		=> $brow['username'],
-							'birthday'		=> $brow['birthday'],
-							'age'			=> $this->time->age($brow['birthday']),
-							'today'			=> $this->birthday_istoday($brow['birthday']) ? true : false,
-							'sortdate'		=> $sortdate
-						);
-					}
-				}
+			foreach($arrUserIDs as $intUserID){
+				$intBirthday = $this->pdh->get('user', 'birthday', array($intUserID));
+				if($intBirthday === 0 || !$intBirthday) continue;
+				$sortdate		= $this->birthday_sortdate($intBirthday);
+				
+				$myBirthdays[] = array(
+						'user_id'		=> $intUserID,
+						'username'		=> $this->pdh->get('user', 'name', array($intUserID)),
+						'birthday'		=> $intBirthday,
+						'age'			=> $this->time->age($intBirthday),
+						'today'			=> $this->birthday_istoday($intBirthday) ? true : false,
+						'sortdate'		=> $sortdate
+				);
 			}
 
 			if(is_array($myBirthdays)){
