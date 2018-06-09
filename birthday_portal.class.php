@@ -67,7 +67,7 @@ class birthday_portal extends portal_generic {
 				$intBirthday = $this->pdh->get('user', 'birthday', array($intUserID));
 				if($intBirthday === 0 || !$intBirthday) continue;
 				$sortdate		= $this->birthday_sortdate($intBirthday);
-				
+
 				$myBirthdays[] = array(
 						'user_id'		=> $intUserID,
 						'username'		=> $this->pdh->get('user', 'name', array($intUserID)),
@@ -79,6 +79,7 @@ class birthday_portal extends portal_generic {
 			}
 
 			if(is_array($myBirthdays)){
+				$bdsort = array();
 				foreach ($myBirthdays as $key => $row) {
 					$bdsort[$key]		= $row['sortdate'];
 				}
